@@ -4,7 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.*;
+import ru.practicum.ParticipationRequestDto;
+import ru.practicum.EventFullDto;
+import ru.practicum.EventShortDto;
+import ru.practicum.NewEventDto;
+import ru.practicum.EventRequestStatusUpdateRequest;
+import ru.practicum.EventRequestStatusUpdateResult;
+import ru.practicum.UpdateEventRequest;
 import ru.practicum.service.event.EventService;
 import ru.practicum.service.request.RequestService;
 

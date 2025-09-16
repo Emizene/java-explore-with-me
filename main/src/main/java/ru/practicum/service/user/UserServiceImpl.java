@@ -6,10 +6,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.NewUserRequest;
-import ru.practicum.User;
 import ru.practicum.UserDto;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.mapper.UserMapper;
+import ru.practicum.User;
 import ru.practicum.repository.UserRepository;
 
 import java.util.List;

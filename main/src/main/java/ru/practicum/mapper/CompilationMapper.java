@@ -2,9 +2,9 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.Compilation;
 import ru.practicum.CompilationDto;
 import ru.practicum.NewCompilationDto;
+import ru.practicum.Compilation;
 import ru.practicum.UpdateCompilationRequest;
 
 import java.util.List;
