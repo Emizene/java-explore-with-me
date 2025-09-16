@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.CompilationDto;
 import ru.practicum.NewCompilationDto;
-import ru.practicum.service.compilation.CompilationService;
 import ru.practicum.UpdateCompilationRequest;
+import ru.practicum.service.compilation.CompilationService;
 
 @RestController
 @RequestMapping("/admin/compilations")
