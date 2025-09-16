@@ -3,8 +3,8 @@ package ru.practicum.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.practicum.NewUserRequest;
-import ru.practicum.UserDto;
 import ru.practicum.User;
+import ru.practicum.UserDto;
 
 import java.util.List;
 

@@ -3,9 +3,9 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.EndpointHit;
+import ru.practicum.ViewStats;
 import ru.practicum.mapper.StatsMapper;
 import ru.practicum.repository.StatsRepository;
-import ru.practicum.ViewStats;
 
 import java.time.LocalDateTime;
 import java.util.List;

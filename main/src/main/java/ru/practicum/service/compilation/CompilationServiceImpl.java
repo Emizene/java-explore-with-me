@@ -5,15 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.CompilationDto;
-import ru.practicum.NewCompilationDto;
+import ru.practicum.*;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.mapper.CompilationMapper;
-import ru.practicum.Compilation;
-import ru.practicum.Event;
 import ru.practicum.repository.CompilationRepository;
 import ru.practicum.repository.EventRepository;
-import ru.practicum.UpdateCompilationRequest;
 
 import java.util.HashSet;
 import java.util.List;

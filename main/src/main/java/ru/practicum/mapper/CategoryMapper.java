@@ -2,9 +2,9 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import ru.practicum.Category;
 import ru.practicum.CategoryDto;
 import ru.practicum.NewCategoryDto;
-import ru.practicum.Category;
 
 import java.util.List;
 
