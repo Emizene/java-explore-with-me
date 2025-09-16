@@ -1,14 +1,66 @@
+version: '3.8'
+
 services:
-  stats-server:
+  main-service:
+    build: main
+    image: explore-with-me-main
+    container_name: explore-with-me-main
+    ports:
+      - "8080:8080"
+    depends_on:
+      main-db:
+        condition: service_healthy
+      statistics-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://main-db:5432/main_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      STATS_SERVICE_URL: http://statistics-service:9090
+
+  statistics-service:
+    build: statistics
+    image: explore-with-me-stats
+    container_name: explore-with-me-stats
     ports:
       - "9090:9090"
+    depends_on:
+      stats-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://stats-db:5432/stats_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  main-db:
+    image: postgres:16.1
+    container_name: explore-with-me-main-db
+    ports:
+      - "6541:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: main_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d main_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   stats-db:
     image: postgres:16.1
-
-  ewm-service:
+    container_name: explore-with-me-stats-db
     ports:
-      - "8080:8080"
-
-  ewm-db:
-    image: postgres:16.1
+      - "6542:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: stats_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d stats_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
