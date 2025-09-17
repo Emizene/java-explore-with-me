@@ -1,6 +1,8 @@
 package ru.practicum;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,8 @@ import static ru.practicum.Constants.DATE_TIME_PATTERN;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EndpointHit {
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @NotBlank(message = "App cannot be blank")

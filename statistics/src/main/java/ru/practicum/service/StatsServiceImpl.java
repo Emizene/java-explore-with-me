@@ -1,11 +1,12 @@
 package ru.practicum.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.EndpointHit;
+import ru.practicum.ViewStats;
 import ru.practicum.mapper.StatsMapper;
 import ru.practicum.repository.StatsRepository;
-import ru.practicum.ViewStats;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,7 @@ public class StatsServiceImpl implements StatsService {
     private final StatsRepository statsRepository;
     private final StatsMapper statsMapper;
 
+    @Transactional
     @Override
     public void saveHit(EndpointHit endpointHit) {
         statsRepository.save(statsMapper.toEntity(endpointHit));
