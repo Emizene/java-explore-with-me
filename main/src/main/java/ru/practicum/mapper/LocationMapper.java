@@ -2,11 +2,12 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.Location;
+import org.mapstruct.ReportingPolicy;
+import ru.practicum.model.Location;
 import ru.practicum.LocationDto;
 import ru.practicum.NewLocationDto;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LocationMapper {
 
     LocationDto toDto(Location location);

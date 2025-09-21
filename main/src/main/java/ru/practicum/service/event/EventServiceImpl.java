@@ -7,13 +7,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.*;
+import ru.practicum.dto.AdminUpdateEventRequest;
+import ru.practicum.dto.UpdateEventRequest;
 import ru.practicum.emuns.EventState;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.exception.ValidationException;
 import ru.practicum.mapper.EventMapper;
+import ru.practicum.model.Category;
+import ru.practicum.model.Event;
+import ru.practicum.model.User;
 import ru.practicum.repository.CategoryRepository;
 import ru.practicum.repository.EventRepository;
+import ru.practicum.repository.LocationRepository;
 import ru.practicum.repository.UserRepository;
 import ru.practicum.service.request.RequestService;
 
@@ -29,6 +35,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final LocationRepository locationRepository;
     private final EventMapper eventMapper;
     private final RequestService requestService;
     private final StatsClient statsClient;
@@ -47,8 +54,8 @@ public class EventServiceImpl implements EventService {
     public EventFullDto createEvent(Long userId, NewEventDto newEventDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
-        Category category = categoryRepository.findById(newEventDto.categoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found with id: " + newEventDto.categoryId()));
+        Category category = categoryRepository.findById(newEventDto.category())
+                .orElseThrow(() -> new NotFoundException("Category not found with id: " + newEventDto.category()));
 
         Event event = eventMapper.toEntity(newEventDto);
         event.setInitiator(user);
@@ -56,6 +63,7 @@ public class EventServiceImpl implements EventService {
         event.setCreatedOn(LocalDateTime.now());
         event.setState(EventState.PENDING);
 
+        locationRepository.save(event.getLocation()); //FIXME сделать проверку что такой локации еще нет
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toFullDto(savedEvent);
     }

@@ -2,13 +2,14 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.Category;
+import org.mapstruct.ReportingPolicy;
+import ru.practicum.model.Category;
 import ru.practicum.CategoryDto;
 import ru.practicum.NewCategoryDto;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CategoryMapper {
     CategoryDto toDto(Category category);
 

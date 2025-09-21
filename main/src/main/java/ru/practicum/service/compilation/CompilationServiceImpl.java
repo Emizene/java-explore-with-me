@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import ru.practicum.*;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.mapper.CompilationMapper;
+import ru.practicum.model.Compilation;
+import ru.practicum.model.Event;
 import ru.practicum.repository.CompilationRepository;
 import ru.practicum.repository.EventRepository;
 

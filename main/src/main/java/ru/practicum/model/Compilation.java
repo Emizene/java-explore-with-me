@@ -1,6 +1,7 @@
-package ru.practicum;
+package ru.practicum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,30 +13,41 @@ import java.util.Set;
 
 @Entity
 @Data
+@Valid
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "categories")
-public class Category {
+@Table(name = "compilations")
+public class Compilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 50)
-    private String name;
+    @Column(name = "title", nullable = false, unique = true, length = 50)
+    private String title;
 
-    @Column(name = "description", length = 1000)
+    @Column(name = "pinned")
+    private Boolean pinned;
+
+    @Column(name = "description", length = 500)
     private String description;
 
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "compilation_events",
+            joinColumns = @JoinColumn(name = "compilation_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     @Builder.Default
     private Set<Event> events = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
         created = LocalDateTime.now();
+        if (pinned == null) pinned = false;
     }
 }
+

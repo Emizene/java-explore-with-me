@@ -26,18 +26,10 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        if (uris == null || uris.isEmpty()) {
-            if (unique) {
-                return statsRepository.findUniqueStatsWithoutUris(start, end);
-            } else {
-                return statsRepository.findStatsWithoutUris(start, end);
-            }
+        if (unique) {
+            return statsRepository.findUniqueStats(start, end, uris);
         } else {
-            if (unique) {
-                return statsRepository.findUniqueStatsWithUris(start, end, uris);
-            } else {
-                return statsRepository.findStatsWithUris(start, end, uris);
-            }
+            return statsRepository.findStats(start, end, uris);
         }
     }
 }

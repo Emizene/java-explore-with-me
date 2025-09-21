@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.Category;
+import ru.practicum.model.Category;
 import ru.practicum.CategoryDto;
 import ru.practicum.NewCategoryDto;
 import ru.practicum.exception.ConflictException;

@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,8 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "roles")
-public class Role {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,10 +24,18 @@ public class Role {
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @Column(name = "description", length = 200)
+    @Column(name = "description", length = 1000)
     private String description;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @Column(name = "created", updatable = false)
+    private LocalDateTime created;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
-    private Set<User> users = new HashSet<>();
+    private Set<Event> events = new HashSet<>();
+
+    @PrePersist
+    protected void onCreate() {
+        created = LocalDateTime.now();
+    }
 }

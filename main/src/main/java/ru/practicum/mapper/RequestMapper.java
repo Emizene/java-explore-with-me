@@ -2,10 +2,10 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.Event;
+import ru.practicum.model.Event;
 import ru.practicum.ParticipationRequestDto;
-import ru.practicum.Request;
-import ru.practicum.User;
+import ru.practicum.model.Request;
+import ru.practicum.model.User;
 import ru.practicum.emuns.RequestStatus;
 
 import java.time.LocalDateTime;

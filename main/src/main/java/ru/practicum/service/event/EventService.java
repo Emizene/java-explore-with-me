@@ -2,6 +2,9 @@ package ru.practicum.service.event;
 
 import jakarta.servlet.http.HttpServletRequest;
 import ru.practicum.*;
+import ru.practicum.dto.AdminUpdateEventRequest;
+import ru.practicum.dto.UpdateEventRequest;
+import ru.practicum.model.Event;
 
 import java.util.List;
 

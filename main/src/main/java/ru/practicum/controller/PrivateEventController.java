@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.*;
+import ru.practicum.dto.UpdateEventRequest;
 import ru.practicum.service.event.EventService;
 import ru.practicum.service.request.RequestService;
 

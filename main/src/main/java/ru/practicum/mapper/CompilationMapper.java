@@ -2,14 +2,15 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.Compilation;
+import org.mapstruct.ReportingPolicy;
+import ru.practicum.model.Compilation;
 import ru.practicum.CompilationDto;
 import ru.practicum.NewCompilationDto;
 import ru.practicum.UpdateCompilationRequest;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {EventMapper.class})
+@Mapper(componentModel = "spring", uses = {EventMapper.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CompilationMapper {
 
     @Mapping(source = "events", target = "events")

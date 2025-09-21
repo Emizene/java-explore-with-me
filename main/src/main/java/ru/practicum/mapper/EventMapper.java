@@ -3,6 +3,10 @@ package ru.practicum.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.practicum.*;
+import ru.practicum.dto.AdminUpdateEventRequest;
+import ru.practicum.dto.UpdateEventRequest;
+import ru.practicum.model.Event;
+import ru.practicum.model.Location;
 
 import java.util.List;
 
@@ -32,14 +36,13 @@ public interface EventMapper {
     @Mapping(target = "publishedOn", ignore = true)
     @Mapping(target = "initiator", ignore = true)
     @Mapping(target = "category", ignore = true)
-    @Mapping(target = "location", ignore = true)
     @Mapping(target = "views", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(target = "requests", ignore = true)
     @Mapping(target = "compilations", ignore = true)
     @Mapping(target = "comments", ignore = true)
     @Mapping(target = "statistics", ignore = true)
-    @Mapping(source = "categoryId", target = "category.id")
+    @Mapping(source = "category", target = "category.id")
     Event toEntity(NewEventDto newEventDto);
 
     @Mapping(target = "id", ignore = true)
@@ -64,7 +67,6 @@ public interface EventMapper {
     @Mapping(target = "publishedOn", ignore = true)
     @Mapping(target = "initiator", ignore = true)
     @Mapping(target = "category", ignore = true)
-    @Mapping(target = "location", ignore = true)
     @Mapping(target = "views", ignore = true)
     @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(target = "requests", ignore = true)
@@ -73,4 +75,5 @@ public interface EventMapper {
     @Mapping(target = "statistics", ignore = true)
     @Mapping(source = "categoryId", target = "category.id")
     Event toEntity(AdminUpdateEventRequest adminUpdateEventRequest);
+
 }
