@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.CompilationDto;
-import ru.practicum.NewCompilationDto;
-import ru.practicum.UpdateCompilationRequest;
+import ru.practicum.compilationDto.CompilationDto;
+import ru.practicum.compilationDto.NewCompilationDto;
+import ru.practicum.compilationDto.UpdateCompilationRequest;
 import ru.practicum.service.compilation.CompilationService;
 
 @RestController

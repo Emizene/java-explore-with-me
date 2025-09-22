@@ -1,4 +1,6 @@
-package ru.practicum;
+package ru.practicum.eventDto;
+
+import ru.practicum.locationDto.LocationDto;
 
 import java.time.LocalDateTime;
 

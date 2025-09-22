@@ -3,7 +3,7 @@ package ru.practicum.dto;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import ru.practicum.LocationDto;
+import ru.practicum.locationDto.LocationDto;
 
 import java.time.LocalDateTime;
 

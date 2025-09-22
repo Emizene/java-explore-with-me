@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.requestDto;
 
 public record NewUserRequest(
         String email,

@@ -4,8 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.*;
 import ru.practicum.dto.UpdateEventRequest;
+import ru.practicum.eventDto.EventFullDto;
+import ru.practicum.eventDto.EventShortDto;
+import ru.practicum.eventDto.NewEventDto;
+import ru.practicum.requestDto.EventRequestStatusUpdateRequest;
+import ru.practicum.requestDto.EventRequestStatusUpdateResult;
+import ru.practicum.requestDto.ParticipationRequestDto;
 import ru.practicum.service.event.EventService;
 import ru.practicum.service.request.RequestService;
 
@@ -13,12 +18,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users/{userId}/events")
-public class PrivateEventController {
+public class PrivateUserEventController {
 
     private final EventService eventService;
     private final RequestService requestService;
 
-    public PrivateEventController(EventService eventService, RequestService requestService) {
+    public PrivateUserEventController(EventService eventService, RequestService requestService) {
         this.eventService = eventService;
         this.requestService = requestService;
     }

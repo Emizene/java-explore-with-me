@@ -2,19 +2,21 @@ package ru.practicum.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.ParticipationRequestDto;
+import ru.practicum.requestDto.ParticipationRequestDto;
 import ru.practicum.service.request.RequestService;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/users/{userId}/requests")
-public class RequestController {
+public class RequestUserController {
 
     private final RequestService requestService;
 
-    public RequestController(RequestService requestService) {
+    public RequestUserController(RequestService requestService) {
         this.requestService = requestService;
     }
 

@@ -3,9 +3,9 @@ package ru.practicum.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import ru.practicum.NewUserRequest;
+import ru.practicum.requestDto.NewUserRequest;
 import ru.practicum.model.User;
-import ru.practicum.UserDto;
+import ru.practicum.userDto.UserDto;
 
 import java.util.List;
 

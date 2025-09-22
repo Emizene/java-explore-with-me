@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.practicum.model.Location;
-import ru.practicum.LocationDto;
-import ru.practicum.NewLocationDto;
+import ru.practicum.locationDto.LocationDto;
+import ru.practicum.locationDto.NewLocationDto;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LocationMapper {

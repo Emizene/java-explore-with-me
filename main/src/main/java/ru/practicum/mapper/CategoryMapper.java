@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.practicum.model.Category;
-import ru.practicum.CategoryDto;
-import ru.practicum.NewCategoryDto;
+import ru.practicum.categoryDto.CategoryDto;
+import ru.practicum.categoryDto.NewCategoryDto;
 
 import java.util.List;
 

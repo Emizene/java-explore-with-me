@@ -5,9 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.practicum.exception.AlreadyExistsException;
 import ru.practicum.model.Category;
-import ru.practicum.CategoryDto;
-import ru.practicum.NewCategoryDto;
+import ru.practicum.categoryDto.CategoryDto;
+import ru.practicum.categoryDto.NewCategoryDto;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.mapper.CategoryMapper;
@@ -27,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
+        existsCategoryByName(newCategoryDto.name());
         Category category = categoryMapper.toEntity(newCategoryDto);
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDto(savedCategory);
@@ -42,6 +44,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategory(Long catId, CategoryDto categoryDto) {
         Category category = getCategoryEntityById(catId);
+        if (!category.getName().equals(categoryDto.name())) {
+            existsCategoryByName(categoryDto.name());
+            category.setName(categoryDto.name());
+        }
         category.setName(categoryDto.name());
         Category updatedCategory = categoryRepository.save(category);
         return categoryMapper.toDto(updatedCategory);
@@ -77,6 +83,15 @@ public class CategoryServiceImpl implements CategoryService {
         long eventsCount = eventRepository.countByCategoryId(catId);
         if (eventsCount > 0) {
             throw new ConflictException("Cannot delete category with associated events");
+        }
+    }
+
+    private void existsCategoryByName(String name) {
+        if (categoryRepository.existsByName(name)) {
+            throw new AlreadyExistsException("could not execute statement; SQL [n/a]; " +
+                    "constraint [uq_category_name]; " +
+                    "nested exception is org.hibernate.exception.ConstraintViolationException: " +
+                    "could not execute statement");
         }
     }
 }

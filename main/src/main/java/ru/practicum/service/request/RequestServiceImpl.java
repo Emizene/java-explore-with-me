@@ -3,7 +3,6 @@ package ru.practicum.service.request;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.*;
 import ru.practicum.emuns.EventState;
 import ru.practicum.emuns.RequestStatus;
 import ru.practicum.exception.ConflictException;
@@ -16,6 +15,9 @@ import ru.practicum.model.User;
 import ru.practicum.repository.EventRepository;
 import ru.practicum.repository.RequestRepository;
 import ru.practicum.repository.UserRepository;
+import ru.practicum.requestDto.EventRequestStatusUpdateRequest;
+import ru.practicum.requestDto.EventRequestStatusUpdateResult;
+import ru.practicum.requestDto.ParticipationRequestDto;
 
 import java.util.List;
 

@@ -2,13 +2,12 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.*;
+import ru.practicum.eventDto.EventFullDto;
+import ru.practicum.eventDto.EventShortDto;
+import ru.practicum.eventDto.NewEventDto;
 import ru.practicum.dto.AdminUpdateEventRequest;
 import ru.practicum.dto.UpdateEventRequest;
 import ru.practicum.model.Event;
-import ru.practicum.model.Location;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring",
         uses = {UserMapper.class, CategoryMapper.class, LocationMapper.class})
@@ -22,13 +21,7 @@ public interface EventMapper {
     EventFullDto toFullDto(Event event);
 
     @Mapping(source = "eventDate", target = "eventDate")
-    @Mapping(target = "views", ignore = true)
-    @Mapping(target = "confirmedRequests", ignore = true)
     EventShortDto toShortDto(Event event);
-
-    List<EventFullDto> toFullDtoList(List<Event> events);
-
-    List<EventShortDto> toShortDtoList(List<Event> events);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "state", ignore = true)

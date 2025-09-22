@@ -1,14 +1,15 @@
 package ru.practicum.service.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.NewUserRequest;
+import ru.practicum.exception.AlreadyExistsException;
+import ru.practicum.requestDto.NewUserRequest;
 import ru.practicum.model.User;
-import ru.practicum.UserDto;
-import ru.practicum.exception.NotFoundException;
+import ru.practicum.userDto.UserDto;
 import ru.practicum.mapper.UserMapper;
 import ru.practicum.repository.UserRepository;
 
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(NewUserRequest newUserRequest) {
+        existsEmail(newUserRequest.email());
         User user = userMapper.toEntity(newUserRequest);
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
@@ -45,12 +47,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
+        existsUser(userId);
         userRepository.deleteById(userId);
     }
 
-    @Override
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
+    private void existsEmail(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new AlreadyExistsException("could not execute statement; SQL [n/a]; constraint [uq_email]; " +
+                    "nested exception is org.hibernate.exception.ConstraintViolationException: " +
+                    "could not execute statement");
+        }
+    }
+
+    private void existsUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with id=" + userId + " was not found");
+        }
     }
 }

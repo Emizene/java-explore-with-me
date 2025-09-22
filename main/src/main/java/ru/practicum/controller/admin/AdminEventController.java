@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.AdminUpdateEventRequest;
-import ru.practicum.EventFullDto;
+import ru.practicum.eventDto.EventFullDto;
 import ru.practicum.service.event.EventService;
 
 import java.util.List;

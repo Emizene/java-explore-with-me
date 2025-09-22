@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.practicum.model.Compilation;
-import ru.practicum.CompilationDto;
-import ru.practicum.NewCompilationDto;
-import ru.practicum.UpdateCompilationRequest;
+import ru.practicum.compilationDto.CompilationDto;
+import ru.practicum.compilationDto.NewCompilationDto;
+import ru.practicum.compilationDto.UpdateCompilationRequest;
 
 import java.util.List;
 

@@ -3,11 +3,13 @@ package ru.practicum.controller.admin;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.CategoryDto;
-import ru.practicum.NewCategoryDto;
+import ru.practicum.categoryDto.CategoryDto;
+import ru.practicum.categoryDto.NewCategoryDto;
 import ru.practicum.service.category.CategoryService;
 
+@Validated
 @RestController
 @RequestMapping("/admin/categories")
 public class AdminCategoryController {
