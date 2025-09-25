@@ -1,4 +1,4 @@
-package ru.practicum.controller;
+package ru.practicum.controller.user;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,12 +18,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users/{userId}/events")
-public class PrivateUserEventController {
+public class UserEventController {
 
     private final EventService eventService;
     private final RequestService requestService;
 
-    public PrivateUserEventController(EventService eventService, RequestService requestService) {
+    public UserEventController(EventService eventService, RequestService requestService) {
         this.eventService = eventService;
         this.requestService = requestService;
     }

@@ -10,7 +10,8 @@ import ru.practicum.locationDto.LocationDto;
 import java.time.LocalDateTime;
 
 public record NewEventDto(
-        @NotNull
+        @NotBlank
+        @Size(min = 20, max = 2000)
         String annotation,
         @NotNull
         Long category,

@@ -82,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
     private void checkCategoryNotUsed(Long catId) {
         long eventsCount = eventRepository.countByCategoryId(catId);
         if (eventsCount > 0) {
-            throw new ConflictException("Cannot delete category with associated events");
+            throw new AlreadyExistsException("Cannot delete category with associated events");
         }
     }
 

@@ -114,25 +114,25 @@ public class ErrorHandler {
                 .build();
     }
 
-//    @ExceptionHandler(Throwable.class)
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public ApiError handleAllExceptions(Throwable e) {
-//        log.error("Внутренняя ошибка сервера: {}", e.getMessage(), e);
-//        return ApiError.builder()
-//                .status(HttpStatus.INTERNAL_SERVER_ERROR.name())
-//                .reason("Internal server error")
-//                .message("Произошла непредвиденная ошибка")
-//                .timestamp(LocalDateTime.now().format(FORMATTER))
-//                .build();
-//    }
-
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        log.error("Некорректный запрос: {}", e.getMessage());
+        log.error("Ошибка параметров: {}", e.getMessage());
         return ApiError.builder()
                 .status(HttpStatus.BAD_REQUEST.name())
-                .reason("Incorrectly made request")
+                .reason("Missing request parameter")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now().format(FORMATTER))
+                .build();
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiError handleConflictException(ConflictException e) {
+        log.error("Конфликт данных: {}", e.getMessage());
+        return ApiError.builder()
+                .status(HttpStatus.CONFLICT.name())
+                .reason("For the requested operation the conditions are not met")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now().format(FORMATTER))
                 .build();

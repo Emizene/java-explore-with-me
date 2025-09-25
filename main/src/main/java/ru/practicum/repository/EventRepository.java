@@ -22,6 +22,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     boolean existsByIdAndInitiatorId(Long id, Long initiatorId);
 
+    Boolean existsByCategoryId(Long categoryId);
+
     Optional<Event> findByIdAndState(Long id, EventState state);
 
     @Query("SELECT e FROM Event e " +

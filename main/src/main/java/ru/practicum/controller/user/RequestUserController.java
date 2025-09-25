@@ -1,4 +1,4 @@
-package ru.practicum.controller;
+package ru.practicum.controller.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
