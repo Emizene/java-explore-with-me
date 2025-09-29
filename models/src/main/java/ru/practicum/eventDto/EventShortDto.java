@@ -24,9 +24,9 @@ public record EventShortDto(
         Boolean paid,
         @NotNull
         String title,
-        Long views
+        Integer views
 ) {
-    public EventShortDto withStats(Integer confirmedRequests, Long views) {
+    public EventShortDto withStats(Integer confirmedRequests, Integer views) {
         return new EventShortDto(
                 annotation,
                 category,

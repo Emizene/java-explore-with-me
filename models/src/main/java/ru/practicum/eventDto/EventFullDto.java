@@ -33,6 +33,6 @@ public record EventFullDto(
         String state,
         @NotNull
         String title,
-        Long views
+        Integer views
 ) {
 }

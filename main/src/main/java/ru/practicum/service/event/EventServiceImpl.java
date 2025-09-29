@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ru.practicum.*;
 import ru.practicum.dto.AdminUpdateEventRequest;
@@ -108,12 +109,17 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventFullDto> searchEvents(List<Long> users, List<String> states, List<Long> categories,
                                            String rangeStart, String rangeEnd, int from, int size) {
-        Pageable pageable = PageRequest.of(from / size, size);
+        Pageable pageable = PageRequest.of(from * size, size);
         List<EventState> eventStates = parseEventStates(states);
         LocalDateTime start = parseDateTime(rangeStart);
         LocalDateTime end = parseDateTime(rangeEnd);
 
-        List<Event> events = eventRepository.searchEvents(users, eventStates, categories, start, end, pageable);
+        List<Event> events = eventRepository.searchEvents(users,
+                eventStates,
+                categories,
+                start != null ? start : LocalDateTime.of(1970, 1, 1, 0,0),
+                end != null ? end : LocalDateTime.of(2970, 1, 1, 0,0),
+                pageable);
         return events.stream()
                 .map(eventMapper::toFullDto)
                 .collect(Collectors.toList());
@@ -174,18 +180,7 @@ public class EventServiceImpl implements EventService {
             });
         }
 
-//        List<EventShortDto> eventShortDtos = new ArrayList<>(events.stream()
-//                .map(EventMapper::toShortDto).toList());
-
-//        Map<Long, Long> confirmedRequests = requestRepository.countConfirmedRequestsByEventIds(eventIds);
-
         Map<Long, Long> viewsStats = getViewsStatistics(events);
-
-//        if (sort == null || sort.equals(EventSort.EVENT_DATE)) {
-//            eventShortDtos.sort(Comparator.comparing(EventShortDto::getEventDate));
-//        } else if (sort.equals(EventSort.VIEWS)) {
-//            eventShortDtos.sort(Comparator.comparing(EventShortDto::getViews).reversed());
-//        }
 
         EndpointHit hitDto = new EndpointHit(
                 "ewm-service",
@@ -200,12 +195,10 @@ public class EventServiceImpl implements EventService {
                     EventShortDto dto = eventMapper.toShortDto(event);
                     return dto.withStats(
                             confirmedMap.getOrDefault(event.getId(), 0L).intValue(),
-                            viewsStats.getOrDefault(event.getId(), 0L)
+                            Math.toIntExact(viewsStats.getOrDefault(event.getId(), 0L))
                     );
                 })
                 .collect(Collectors.toList());
-
-//        return eventShortDtos;
     }
 
     private Map<Long, Long> getViewsStatistics(List<Event> events) {
@@ -245,18 +238,25 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public EventFullDto getEventById(Long id, HttpServletRequest request) {
         Event event = eventRepository.findByIdAndState(id, EventState.PUBLISHED)
                 .orElseThrow(() -> new NotFoundException("Published event not found with id: " + id));
 
+        String ipAddress = getClientIpAddress(request);
+
         EndpointHit hit = new EndpointHit(
                 "ewm-main-service",
                 request.getRequestURI(),
-                request.getRemoteAddr(),
+                ipAddress,
                 LocalDateTime.now()
         );
-
         statsClient.saveHit(hit);
+
+        if (!event.getViews().contains(ipAddress)) {
+            event.getViews().add(ipAddress);
+            eventRepository.save(event);
+        }
 
         return eventMapper.toFullDto(event);
     }
@@ -351,4 +351,13 @@ public class EventServiceImpl implements EventService {
                     "that has not yet occurred. Value: " + eventDate);
         }
     }
+
+    private String getClientIpAddress(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+            return xForwardedFor.split(",")[0].trim();
+        }
+        return request.getRemoteAddr();
+    }
+
 }

@@ -26,16 +26,4 @@ public class Location {
 
     @Column(name = "lon", nullable = false)
     private Float lon;
-
-//    @Column(name = "created", updatable = false)
-//    private LocalDateTime created;
-//
-//    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @Builder.Default
-//    private Set<Event> events = new HashSet<>();
-//
-//    @PrePersist
-//    protected void onCreate() {
-//        created = LocalDateTime.now();
-//    }
 }

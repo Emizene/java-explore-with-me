@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import ru.practicum.emuns.EventState;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -53,11 +55,8 @@ public class Event {
     @Column(name = "state", length = 20)
     private EventState state;
 
-    @Column(name = "views")
-    private Long views;
-
-    @Column(name = "confirmed_requests")
-    private Integer confirmedRequests;
+    @Column(name = "views", columnDefinition = "text[]")
+    private List<String> views;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "initiator_id", nullable = false)
@@ -94,7 +93,7 @@ public class Event {
         if (participantLimit == null) participantLimit = 0;
         if (requestModeration == null) requestModeration = true;
         if (state == null) state = EventState.PENDING;
-        if (views == null) views = 0L;
-        if (confirmedRequests == null) confirmedRequests = 0;
+        if (views == null) views = new ArrayList<>();
+//        if (confirmedRequests == null) confirmedRequests = 0;
     }
 }

@@ -22,7 +22,7 @@ public interface CompilationMapper {
     @Mapping(target = "events", ignore = true)
     Compilation toEntity(NewCompilationDto newCompilationDto);
 
-    @Mapping(target = "id", ignore = true)
+//    @Mapping(target = "id", ignore = true)
     @Mapping(target = "events", ignore = true)
     Compilation toEntity(UpdateCompilationRequest updateRequest);
 }

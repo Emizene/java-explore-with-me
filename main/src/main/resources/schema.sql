@@ -50,8 +50,7 @@ CREATE TABLE events
     participant_limit  INTEGER     DEFAULT 0,
     request_moderation BOOLEAN     DEFAULT TRUE,
     state              VARCHAR(20) DEFAULT 'PENDING',
-    views              BIGINT      DEFAULT 0,
-    confirmed_requests INTEGER     DEFAULT 0,
+    views              TEXT[]      DEFAULT '{}',
 
     initiator_id       BIGINT        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
     category_id        BIGINT        NOT NULL REFERENCES categories (id) ON DELETE RESTRICT,
@@ -59,10 +58,12 @@ CREATE TABLE events
 
     CONSTRAINT chk_event_state CHECK (state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
 );
+
 CREATE INDEX idx_events_initiator ON events (initiator_id);
 CREATE INDEX idx_events_category ON events (category_id);
 CREATE INDEX idx_events_state ON events (state);
 CREATE INDEX idx_events_event_date ON events (event_date);
+CREATE INDEX idx_events_views ON events USING GIN (views);
 
 CREATE TABLE requests
 (
