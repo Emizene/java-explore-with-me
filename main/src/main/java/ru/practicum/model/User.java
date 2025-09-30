@@ -1,17 +1,16 @@
 package ru.practicum.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -60,5 +59,32 @@ public class User {
         if (status == null) {
             status = "ACTIVE";
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", created=" + created +
+                ", status='" + status + '\'' +
+                ", eventsCount=" + (events != null ? events.size() : 0) +
+                ", requestsCount=" + (requests != null ? requests.size() : 0) +
+                ", rolesCount=" + (roles != null ? roles.size() : 0) +
+                ", commentsCount=" + (comments != null ? comments.size() : 0) +
+                '}';
     }
 }

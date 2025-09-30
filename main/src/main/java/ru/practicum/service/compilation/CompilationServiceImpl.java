@@ -1,9 +1,12 @@
 package ru.practicum.service.compilation;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import ru.practicum.compilationDto.CompilationDto;
 import ru.practicum.compilationDto.NewCompilationDto;
@@ -43,9 +46,11 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public CompilationDto getCompilationById(Long compId) {
-        Compilation compilation = compilationRepository.findById(compId)
+        Compilation compilation = compilationRepository.findWithEventsById(compId)
                 .orElseThrow(() -> new NotFoundException("Compilation not found with id: " + compId));
+        Hibernate.initialize(compilation.getEvents());
         return compilationMapper.toDto(compilation);
     }
 

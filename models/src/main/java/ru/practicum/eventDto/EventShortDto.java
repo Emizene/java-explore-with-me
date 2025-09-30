@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 
 public record EventShortDto(
         @NotNull
+        Long id,
+        @NotNull
         String annotation,
         @NotNull
         CategoryDto category,
@@ -17,7 +19,6 @@ public record EventShortDto(
         @NotNull
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime eventDate,
-        Long id,
         @NotNull
         UserShortDto initiator,
         @NotNull
@@ -28,11 +29,11 @@ public record EventShortDto(
 ) {
     public EventShortDto withStats(Integer confirmedRequests, Integer views) {
         return new EventShortDto(
+                id,
                 annotation,
                 category,
                 confirmedRequests,
                 eventDate,
-                id,
                 initiator,
                 paid,
                 title,

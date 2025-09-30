@@ -7,9 +7,9 @@ import ru.practicum.eventDto.EventShortDto;
 import java.util.List;
 
 public record CompilationDto(
-        List<EventShortDto> events,
         @NotNull
         Long id,
+        List<EventShortDto> events,
         @NotNull
         Boolean pinned,
         @NotNull

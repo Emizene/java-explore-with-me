@@ -13,6 +13,7 @@ import ru.practicum.model.Event;
 import ru.practicum.model.Request;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring",
         uses = {UserMapper.class, CategoryMapper.class, LocationMapper.class})
@@ -22,6 +23,7 @@ public interface EventMapper {
     @Mapping(source = "createdOn", target = "createdOn")
     @Mapping(source = "publishedOn", target = "publishedOn")
     @Mapping(source = "views", target = "views", qualifiedByName = "mapViews")
+    @Mapping(target = "confirmedRequests", source = "requests", qualifiedByName = "mapRequests")
     EventFullDto toFullDto(Event event);
 
     @Mapping(source = "eventDate", target = "eventDate")
@@ -75,6 +77,14 @@ public interface EventMapper {
     @Named("mapViews")
     default Integer mapViews(List<String> views) {
         return views != null ? views.size() : 0;
+    }
+
+    @Named("mapRequests")
+    default Integer mapRequests(Set<Request> requests) {
+        return requests.stream()
+                .filter(it -> it.getStatus() == RequestStatus.CONFIRMED)
+                .toList()
+                .size();
     }
 
 }

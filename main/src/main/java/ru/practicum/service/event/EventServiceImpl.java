@@ -107,6 +107,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public List<EventFullDto> searchEvents(List<Long> users, List<String> states, List<Long> categories,
                                            String rangeStart, String rangeEnd, int from, int size) {
         Pageable pageable = PageRequest.of(from * size, size);
@@ -122,7 +123,7 @@ public class EventServiceImpl implements EventService {
                 pageable);
         return events.stream()
                 .map(eventMapper::toFullDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
@@ -267,20 +268,32 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new NotFoundException("Event not found with id: " + eventId));
     }
 
-    private void updateEventFields(Event event, Object updateRequest) {
-        if (updateRequest instanceof UpdateEventRequest userRequest) {
-            if (userRequest.getAnnotation() != null) event.setAnnotation(userRequest.getAnnotation());
-            if (userRequest.getCategoryId() != null) {
-                Category category = categoryRepository.findById(userRequest.getCategoryId())
+    private void updateEventFields(Event event, UpdateEventRequest updateRequest) {
+            if (updateRequest.getAnnotation() != null) event.setAnnotation(updateRequest.getAnnotation());
+            if (updateRequest.getCategoryId() != null) {
+                Category category = categoryRepository.findById(updateRequest.getCategoryId())
                         .orElseThrow(() -> new NotFoundException("Category not found"));
                 event.setCategory(category);
             }
-            if (userRequest.getDescription() != null) event.setDescription(userRequest.getDescription());
-            if (userRequest.getEventDate() != null) event.setEventDate(userRequest.getEventDate());
-            if (userRequest.getPaid() != null) event.setPaid(userRequest.getPaid());
-            if (userRequest.getParticipantLimit() != null) event.setParticipantLimit(userRequest.getParticipantLimit());
-            if (userRequest.getTitle() != null) event.setTitle(userRequest.getTitle());
-        }
+            if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
+            if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
+            if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
+            if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
+            if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
+    }
+
+    private void updateEventFields(Event event, AdminUpdateEventRequest updateRequest) {
+            if (updateRequest.getAnnotation() != null) event.setAnnotation(updateRequest.getAnnotation());
+            if (updateRequest.getCategoryId() != null) {
+                Category category = categoryRepository.findById(updateRequest.getCategoryId())
+                        .orElseThrow(() -> new NotFoundException("Category not found"));
+                event.setCategory(category);
+            }
+            if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
+            if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
+            if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
+            if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
+            if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
     }
 
     private void handleUserStateAction(Event event, String stateAction) {

@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS comments CASCADE;
 DROP TABLE IF EXISTS roles CASCADE;
 DROP TABLE IF EXISTS user_roles CASCADE;
 DROP TABLE IF EXISTS event_statistics CASCADE;
+DROP TABLE IF EXISTS request_events CASCADE;
+
 
 CREATE TABLE users
 (
@@ -96,8 +98,15 @@ CREATE TABLE compilation_events
 (
     compilation_id BIGINT NOT NULL REFERENCES compilations (id) ON DELETE CASCADE,
     event_id       BIGINT NOT NULL REFERENCES events (id) ON DELETE CASCADE,
+    added_date     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE request_events
+(
+    request_id BIGINT NOT NULL REFERENCES requests (id) ON DELETE CASCADE,
+    event_id       BIGINT NOT NULL REFERENCES events (id) ON DELETE CASCADE,
     added_date     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (compilation_id, event_id)
+    PRIMARY KEY (request_id, event_id)
 );
 
 CREATE INDEX idx_compilation_events_comp ON compilation_events (compilation_id);

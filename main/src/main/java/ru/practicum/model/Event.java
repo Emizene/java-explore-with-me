@@ -1,20 +1,15 @@
 package ru.practicum.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.practicum.emuns.EventState;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -95,5 +90,39 @@ public class Event {
         if (state == null) state = EventState.PENDING;
         if (views == null) views = new ArrayList<>();
 //        if (confirmedRequests == null) confirmedRequests = 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Event)) return false;
+        Event event = (Event) o;
+        return id != null && id.equals(event.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", annotation='" + (annotation != null ?
+                (annotation.length() > 30 ? annotation.substring(0, 30) + "..." : annotation)
+                : null) + '\'' +
+                ", eventDate=" + eventDate +
+                ", state=" + state +
+                ", paid=" + paid +
+                ", participantLimit=" + participantLimit +
+                ", initiatorId=" + (initiator != null ? initiator.getId() : null) +
+                ", categoryId=" + (category != null ? category.getId() : null) +
+                ", locationId=" + (location != null ? location.getId() : null) +
+                ", requestsCount=" + (requests != null ? requests.size() : 0) +
+                ", commentsCount=" + (comments != null ? comments.size() : 0) +
+                ", compilationsCount=" + (compilations != null ? compilations.size() : 0) +
+                '}';
     }
 }
