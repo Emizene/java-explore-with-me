@@ -57,7 +57,6 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
     }
 
-    //FIXME
     @Transactional
     @Override
     public EventFullDto createEvent(Long userId, NewEventDto newEventDto) {
@@ -73,7 +72,7 @@ public class EventServiceImpl implements EventService {
         event.setCreatedOn(LocalDateTime.now());
         event.setState(EventState.PENDING);
 
-        locationRepository.save(event.getLocation()); //FIXME сделать проверку что такой локации еще нет
+        locationRepository.save(event.getLocation());
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toFullDto(savedEvent);
     }

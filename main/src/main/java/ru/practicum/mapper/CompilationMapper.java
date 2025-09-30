@@ -18,11 +18,9 @@ public interface CompilationMapper {
 
     List<CompilationDto> toDtoList(List<Compilation> compilations);
 
-//    @Mapping(target = "id", ignore = true)
     @Mapping(target = "events", ignore = true)
     Compilation toEntity(NewCompilationDto newCompilationDto);
 
-//    @Mapping(target = "id", ignore = true)
     @Mapping(target = "events", ignore = true)
     Compilation toEntity(UpdateCompilationRequest updateRequest);
 }

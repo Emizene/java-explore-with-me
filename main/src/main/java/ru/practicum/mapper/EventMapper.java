@@ -86,5 +86,4 @@ public interface EventMapper {
                 .toList()
                 .size();
     }
-
 }
