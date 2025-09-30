@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import ru.practicum.compilationDto.CompilationDto;
 import ru.practicum.compilationDto.NewCompilationDto;

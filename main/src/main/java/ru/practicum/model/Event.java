@@ -89,14 +89,12 @@ public class Event {
         if (requestModeration == null) requestModeration = true;
         if (state == null) state = EventState.PENDING;
         if (views == null) views = new ArrayList<>();
-//        if (confirmedRequests == null) confirmedRequests = 0;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Event)) return false;
-        Event event = (Event) o;
+        if (!(o instanceof Event event)) return false;
         return id != null && id.equals(event.id);
     }
 

@@ -7,9 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import ru.practicum.*;
+import ru.practicum.EndpointHit;
+import ru.practicum.StatsClient;
+import ru.practicum.ViewStats;
 import ru.practicum.dto.AdminUpdateEventRequest;
 import ru.practicum.dto.UpdateEventRequest;
 import ru.practicum.emuns.EventState;
@@ -118,8 +119,8 @@ public class EventServiceImpl implements EventService {
         List<Event> events = eventRepository.searchEvents(users,
                 eventStates,
                 categories,
-                start != null ? start : LocalDateTime.of(1970, 1, 1, 0,0),
-                end != null ? end : LocalDateTime.of(2970, 1, 1, 0,0),
+                start != null ? start : LocalDateTime.of(1970, 1, 1, 0, 0),
+                end != null ? end : LocalDateTime.of(2970, 1, 1, 0, 0),
                 pageable);
         return events.stream()
                 .map(eventMapper::toFullDto)
@@ -269,31 +270,31 @@ public class EventServiceImpl implements EventService {
     }
 
     private void updateEventFields(Event event, UpdateEventRequest updateRequest) {
-            if (updateRequest.getAnnotation() != null) event.setAnnotation(updateRequest.getAnnotation());
-            if (updateRequest.getCategoryId() != null) {
-                Category category = categoryRepository.findById(updateRequest.getCategoryId())
-                        .orElseThrow(() -> new NotFoundException("Category not found"));
-                event.setCategory(category);
-            }
-            if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
-            if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
-            if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
-            if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
-            if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
+        if (updateRequest.getAnnotation() != null) event.setAnnotation(updateRequest.getAnnotation());
+        if (updateRequest.getCategoryId() != null) {
+            Category category = categoryRepository.findById(updateRequest.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
+            event.setCategory(category);
+        }
+        if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
+        if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
+        if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
+        if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
+        if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
     }
 
     private void updateEventFields(Event event, AdminUpdateEventRequest updateRequest) {
-            if (updateRequest.getAnnotation() != null) event.setAnnotation(updateRequest.getAnnotation());
-            if (updateRequest.getCategoryId() != null) {
-                Category category = categoryRepository.findById(updateRequest.getCategoryId())
-                        .orElseThrow(() -> new NotFoundException("Category not found"));
-                event.setCategory(category);
-            }
-            if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
-            if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
-            if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
-            if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
-            if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
+        if (updateRequest.getAnnotation() != null) event.setAnnotation(updateRequest.getAnnotation());
+        if (updateRequest.getCategoryId() != null) {
+            Category category = categoryRepository.findById(updateRequest.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
+            event.setCategory(category);
+        }
+        if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
+        if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
+        if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
+        if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
+        if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
     }
 
     private void handleUserStateAction(Event event, String stateAction) {

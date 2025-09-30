@@ -1,10 +1,9 @@
 package ru.practicum.eventDto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import ru.practicum.userDto.UserShortDto;
 import ru.practicum.categoryDto.CategoryDto;
+import ru.practicum.userDto.UserShortDto;
 
 import java.time.LocalDateTime;
 
