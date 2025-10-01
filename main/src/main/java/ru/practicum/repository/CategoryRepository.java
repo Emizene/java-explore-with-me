@@ -6,5 +6,5 @@ import ru.practicum.model.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    Boolean existsByName(String name);
+    Boolean existByCategoryId(Long id);
 }

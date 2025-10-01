@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.emuns.EventSort;
 import ru.practicum.eventDto.EventFullDto;
 import ru.practicum.eventDto.EventShortDto;
 import ru.practicum.service.event.EventService;
@@ -34,7 +35,7 @@ public class EventController {
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME_PATTERN) String rangeStart,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME_PATTERN) String rangeEnd,
             @RequestParam(defaultValue = "false") Boolean onlyAvailable,
-            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) EventSort sort,
             @RequestParam(defaultValue = "0") @PositiveOrZero int from,
             @RequestParam(defaultValue = "10") @Positive int size,
             HttpServletRequest request) {

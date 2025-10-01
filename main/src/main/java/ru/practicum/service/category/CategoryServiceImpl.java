@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.categoryDto.CategoryDto;
 import ru.practicum.categoryDto.NewCategoryDto;
 import ru.practicum.exception.AlreadyExistsException;
+import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.mapper.CategoryMapper;
 import ru.practicum.model.Category;
@@ -27,7 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
-        existsCategoryByName(newCategoryDto.name());
         Category category = categoryMapper.toEntity(newCategoryDto);
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDto(savedCategory);
@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(Long catId) {
         checkCategoryExists(catId);
-        checkCategoryNotUsed(catId);
+        existByCategoryId(catId);
         categoryRepository.deleteById(catId);
     }
 
@@ -44,7 +44,6 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto updateCategory(Long catId, CategoryDto categoryDto) {
         Category category = getCategoryEntityById(catId);
         if (!category.getName().equals(categoryDto.name())) {
-            existsCategoryByName(categoryDto.name());
             category.setName(categoryDto.name());
         }
         category.setName(categoryDto.name());
@@ -78,19 +77,9 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    private void checkCategoryNotUsed(Long catId) {
-        long eventsCount = eventRepository.countByCategoryId(catId);
-        if (eventsCount > 0) {
-            throw new AlreadyExistsException("Cannot delete category with associated events");
-        }
-    }
-
-    private void existsCategoryByName(String name) {
-        if (categoryRepository.existsByName(name)) {
-            throw new AlreadyExistsException("could not execute statement; SQL [n/a]; " +
-                    "constraint [uq_category_name]; " +
-                    "nested exception is org.hibernate.exception.ConstraintViolationException: " +
-                    "could not execute statement");
+    private void existByCategoryId(Long catId) {
+        if (categoryRepository.existByCategoryId(catId)) {
+            throw new ConflictException("The category is not empty");
         }
     }
 }

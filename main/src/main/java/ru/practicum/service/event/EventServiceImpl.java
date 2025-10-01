@@ -13,6 +13,7 @@ import ru.practicum.StatsClient;
 import ru.practicum.ViewStats;
 import ru.practicum.dto.AdminUpdateEventRequest;
 import ru.practicum.dto.UpdateEventRequest;
+import ru.practicum.emuns.EventSort;
 import ru.practicum.emuns.EventState;
 import ru.practicum.eventDto.EventFullDto;
 import ru.practicum.eventDto.EventShortDto;
@@ -29,9 +30,7 @@ import ru.practicum.repository.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -54,7 +53,7 @@ public class EventServiceImpl implements EventService {
         List<Event> events = eventRepository.findAllByInitiatorId(userId, pageable);
         return events.stream()
                 .map(eventMapper::toShortDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional
@@ -143,7 +142,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventShortDto> getEvents(String text, List<Long> categories, Boolean paid, String rangeStart,
-                                         String rangeEnd, Boolean onlyAvailable, String sort, int from, int size,
+                                         String rangeEnd, Boolean onlyAvailable, EventSort sort, int from, int size,
                                          HttpServletRequest request) {
 
         LocalDateTime start = parseDateTime(rangeStart);
@@ -191,7 +190,7 @@ public class EventServiceImpl implements EventService {
         );
         statsClient.saveHit(hitDto);
 
-        return events.stream()
+        List<EventShortDto> result = new ArrayList<>(events.stream()
                 .map(event -> {
                     EventShortDto dto = eventMapper.toShortDto(event);
                     return dto.withStats(
@@ -199,7 +198,15 @@ public class EventServiceImpl implements EventService {
                             Math.toIntExact(viewsStats.getOrDefault(event.getId(), 0L))
                     );
                 })
-                .collect(Collectors.toList());
+                .toList());
+
+        if (sort == null || sort.equals(EventSort.EVENT_DATE)) {
+            result.sort(Comparator.comparing(EventShortDto::eventDate));
+        } else if (sort.equals(EventSort.VIEWS)) {
+            result.sort(Comparator.comparing(EventShortDto::views).reversed());
+        }
+
+        return result;
     }
 
     private Map<Long, Long> getViewsStatistics(List<Event> events) {
@@ -214,7 +221,7 @@ public class EventServiceImpl implements EventService {
 
         List<String> uris = events.stream()
                 .map(event -> String.format("/events/%d", event.getId()))
-                .collect(Collectors.toList());
+                .toList();
 
         try {
             List<ViewStats> stats = statsClient.getStats(
@@ -290,7 +297,20 @@ public class EventServiceImpl implements EventService {
             event.setCategory(category);
         }
         if (updateRequest.getDescription() != null) event.setDescription(updateRequest.getDescription());
-        if (updateRequest.getEventDate() != null) event.setEventDate(updateRequest.getEventDate());
+
+        if (updateRequest.getEventDate() != null) {
+            LocalDateTime newEventDate = updateRequest.getEventDate();
+
+            if (event.getState() == EventState.PENDING) {
+                LocalDateTime minimumAllowedDate = LocalDateTime.now().plusHours(1);
+                if (newEventDate.isBefore(minimumAllowedDate)) {
+                    throw new ConflictException("Event start date must be at least 1 hour after publication");
+                }
+            }
+
+            event.setEventDate(newEventDate);
+        }
+
         if (updateRequest.getPaid() != null) event.setPaid(updateRequest.getPaid());
         if (updateRequest.getParticipantLimit() != null) event.setParticipantLimit(updateRequest.getParticipantLimit());
         if (updateRequest.getTitle() != null) event.setTitle(updateRequest.getTitle());
@@ -339,7 +359,7 @@ public class EventServiceImpl implements EventService {
         if (stateStrings == null) return null;
         return stateStrings.stream()
                 .map(EventState::valueOf)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private LocalDateTime parseDateTime(String dateTimeString) {
