@@ -12,6 +12,7 @@ import ru.practicum.exception.NotFoundException;
 import ru.practicum.mapper.CategoryMapper;
 import ru.practicum.model.Category;
 import ru.practicum.repository.CategoryRepository;
+import ru.practicum.repository.EventRepository;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final EventRepository eventRepository;
 
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
@@ -75,7 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private void existByCategoryId(Long catId) {
-        if (categoryRepository.existByCategoryId(catId)) {
+        if (eventRepository.existsByCategoryId(catId)) {
             throw new ConflictException("The category is not empty");
         }
     }

@@ -68,5 +68,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                              @Param("end") LocalDateTime end,
                              Pageable pageable);
 
-    long countByCategoryId(Long categoryId);
+    Boolean existsByCategoryId(Long categoryId);
 }
