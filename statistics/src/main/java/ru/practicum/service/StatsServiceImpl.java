@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.EndpointHit;
 import ru.practicum.ViewStats;
+import ru.practicum.exception.BadRequestException;
 import ru.practicum.mapper.StatsMapper;
 import ru.practicum.repository.StatsRepository;
 
@@ -26,18 +27,15 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStats> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
-        if (uris == null || uris.isEmpty()) {
-            if (unique) {
-                return statsRepository.findUniqueStatsWithoutUris(start, end);
-            } else {
-                return statsRepository.findStatsWithoutUris(start, end);
-            }
+
+        if (start != null && end != null && start.isAfter(end)) {
+            throw new BadRequestException("Start date must be before end date");
+        }
+
+        if (unique) {
+            return statsRepository.findUniqueStats(start, end, uris);
         } else {
-            if (unique) {
-                return statsRepository.findUniqueStatsWithUris(start, end, uris);
-            } else {
-                return statsRepository.findStatsWithUris(start, end, uris);
-            }
+            return statsRepository.findStats(start, end, uris);
         }
     }
 }

@@ -2,7 +2,7 @@ package ru.practicum.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.CompilationDto;
+import ru.practicum.compilationDto.CompilationDto;
 import ru.practicum.service.compilation.CompilationService;
 
 import java.util.List;

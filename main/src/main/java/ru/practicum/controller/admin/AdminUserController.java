@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.NewUserRequest;
-import ru.practicum.UserDto;
+import ru.practicum.requestDto.NewUserRequest;
+import ru.practicum.userDto.UserDto;
 import ru.practicum.service.user.UserService;
 
 import java.util.List;

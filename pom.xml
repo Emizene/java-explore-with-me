@@ -47,6 +47,9 @@
                     <configuration>
                         <source>21</source>
                         <target>21</target>
+                        <compilerArgs>
+                            <arg>-implicit:none</arg>
+                        </compilerArgs>
                     </configuration>
                 </plugin>
                 <plugin>

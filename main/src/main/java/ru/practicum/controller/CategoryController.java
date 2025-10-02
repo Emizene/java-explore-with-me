@@ -2,7 +2,7 @@ package ru.practicum.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.CategoryDto;
+import ru.practicum.categoryDto.CategoryDto;
 import ru.practicum.service.category.CategoryService;
 
 import java.util.List;

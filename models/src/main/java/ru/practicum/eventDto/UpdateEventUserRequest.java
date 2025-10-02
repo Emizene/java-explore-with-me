@@ -1,0 +1,19 @@
+package ru.practicum.eventDto;
+
+import ru.practicum.locationDto.LocationDto;
+
+import java.time.LocalDateTime;
+
+public record UpdateEventUserRequest(
+        String annotation,
+        Long category,
+        String description,
+        LocalDateTime eventDate,
+        LocationDto location,
+        Boolean paid,
+        Integer participantLimit,
+        Boolean requestModeration,
+        String stateAction,
+        String title
+) {
+}

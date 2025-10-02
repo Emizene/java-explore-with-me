@@ -2,13 +2,14 @@ package ru.practicum.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.NewUserRequest;
-import ru.practicum.User;
-import ru.practicum.UserDto;
+import org.mapstruct.ReportingPolicy;
+import ru.practicum.requestDto.NewUserRequest;
+import ru.practicum.model.User;
+import ru.practicum.userDto.UserDto;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
     UserDto toDto(User user);
 
