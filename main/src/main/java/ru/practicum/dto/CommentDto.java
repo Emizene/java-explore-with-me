@@ -11,4 +11,3 @@ public class CommentDto {
     UserShortDto author;
     EventDto event;
 }
-.
