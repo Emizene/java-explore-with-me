@@ -28,6 +28,7 @@ public interface EventMapper {
 
     @Mapping(source = "eventDate", target = "eventDate")
     @Mapping(source = "views", target = "views", qualifiedByName = "mapViews")
+    @Mapping(target = "confirmedRequests", source = "requests", qualifiedByName = "mapRequests")
     EventShortDto toShortDto(Event event);
 
 
@@ -41,7 +42,6 @@ public interface EventMapper {
     @Mapping(target = "requests", ignore = true)
     @Mapping(target = "compilations", ignore = true)
     @Mapping(target = "comments", ignore = true)
-    @Mapping(target = "statistics", ignore = true)
     @Mapping(source = "category", target = "category.id")
     Event toEntity(NewEventDto newEventDto);
 
@@ -56,7 +56,6 @@ public interface EventMapper {
     @Mapping(target = "requests", ignore = true)
     @Mapping(target = "compilations", ignore = true)
     @Mapping(target = "comments", ignore = true)
-    @Mapping(target = "statistics", ignore = true)
     @Mapping(source = "categoryId", target = "category.id")
     Event toEntity(UpdateEventRequest updateEventRequest);
 
@@ -70,7 +69,6 @@ public interface EventMapper {
     @Mapping(target = "requests", ignore = true)
     @Mapping(target = "compilations", ignore = true)
     @Mapping(target = "comments", ignore = true)
-    @Mapping(target = "statistics", ignore = true)
     @Mapping(source = "categoryId", target = "category.id")
     Event toEntity(AdminUpdateEventRequest adminUpdateEventRequest);
 
