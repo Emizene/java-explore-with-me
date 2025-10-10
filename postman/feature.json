@@ -72,14 +72,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/event/1/comment",
+					"raw": "{{baseUrl}}/event/1/comments",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"event",
 						"1",
-						"comment"
+						"comments"
 					]
 				},
 				"description": "Обратите внимание: дата и время на которые намечено событие не может быть раньше, чем через два часа от текущего момента"
@@ -138,14 +138,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/event/1/comment/1",
+					"raw": "{{baseUrl}}/event/1/comments/1",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"event",
 						"1",
-						"comment",
+						"comments",
 						"1"
 					]
 				}
@@ -174,7 +174,9 @@
 							"  }",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -182,14 +184,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/event/1/comment",
+					"raw": "{{baseUrl}}/event/1/comments",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"event",
 						"1",
-						"comment"
+						"comments"
 					]
 				}
 			},
@@ -212,7 +214,9 @@
 							"  ['id','text','created','author','event'].forEach(k => pm.expect(j).to.have.property(k));",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -220,14 +224,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/event/1/comment/{{commentId}}",
+					"raw": "{{baseUrl}}/event/1/comments/{{commentId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"event",
 						"1",
-						"comment",
+						"comments",
 						"{{commentId}}"
 					]
 				}
@@ -244,7 +248,9 @@
 							"pm.test(\"Статус 204 No Content\", function(){ pm.response.to.have.status(204); });",
 							"pm.test(\"Тело отсутствует\", function(){ pm.expect(pm.response.text()).to.be.oneOf(['', undefined]); });"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -258,14 +264,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/event/1/comment/{{commentId}}",
+					"raw": "{{baseUrl}}/event/1/comments/{{commentId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"event",
 						"1",
-						"comment",
+						"comments",
 						"{{commentId}}"
 					]
 				}
@@ -281,7 +287,9 @@
 						"exec": [
 							"pm.test(\"Статус 404 Not Found\", function(){ pm.response.to.have.status(404); });"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -289,14 +297,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/event/1/comment/{{commentId}}",
+					"raw": "{{baseUrl}}/event/1/comments/{{commentId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"event",
 						"1",
-						"comment",
+						"comments",
 						"{{commentId}}"
 					]
 				}
