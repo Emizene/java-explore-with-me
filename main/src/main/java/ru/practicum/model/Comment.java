@@ -22,7 +22,7 @@ public class Comment {
     private Long id;
 
     @NotEmpty
-    @Column(name = "text", updatable = false, nullable = false, length = 2000)
+    @Column(name = "text", nullable = false, length = 2000)
     private String text;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
