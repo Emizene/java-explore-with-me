@@ -77,10 +77,6 @@ public class Event {
     @Builder.Default
     private Set<Comment> comments = new HashSet<>();
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Builder.Default
-    private Set<EventStatistics> statistics = new HashSet<>();
-
     @PrePersist
     protected void onCreate() {
         createdOn = LocalDateTime.now();

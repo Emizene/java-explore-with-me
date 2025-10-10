@@ -1,18 +1,17 @@
 package ru.practicum.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import ru.practicum.emuns.CommentStatus;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,43 +21,33 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     @Column(name = "text", nullable = false, length = 2000)
     private String text;
 
-    @Column(name = "created", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "created", updatable = false, nullable = false)
     private LocalDateTime created;
-
-    @Column(name = "updated")
-    private LocalDateTime updated;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 20)
-    private CommentStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
+    @NotNull
     private User author;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
+    @NotNull
     private Event event;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id")
-    private Comment parentComment;
-
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Builder.Default
-    private Set<Comment> replies = new HashSet<>();
-
-    @PrePersist
-    protected void onCreate() {
-        created = LocalDateTime.now();
-        if (status == null) status = CommentStatus.PUBLISHED;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(id, comment.id);
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updated = LocalDateTime.now();
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

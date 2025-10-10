@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "858d6976-1615-4d8a-a6f0-16f39086f51c",
+		"name": "3. Explore With Me - Feature Comments",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44028737",
+		"_collection_link": "https://emilia-7494066.postman.co/workspace/Emilia's-Workspace~f80ee25b-725e-42f4-8caf-569373a9a7cb/collection/44028737-858d6976-1615-4d8a-a6f0-16f39086f51c?action=share&source=collection_link&creator=44028737"
+	},
+	"item": [
+		{
+			"name": "Добавление комментария",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {",
+							"    pm.response.to.have.status(201);  ",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// Сохраняем id созданного комментария для следующих запросов (если ответ содержит id)",
+							"try {",
+							"  const j = pm.response.json();",
+							"  if (j && j.id !== undefined) {",
+							"    pm.environment.set('commentId', j.id);",
+							"  }",
+							"} catch(e) {}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "X-User-Id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"text\": \"Комментарий к событию\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/event/1/comments",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"event",
+						"1",
+						"comments"
+					]
+				},
+				"description": "Обратите внимание: дата и время на которые намечено событие не может быть раньше, чем через два часа от текущего момента"
+			},
+			"response": []
+		},
+		{
+			"name": "Изменение комментария",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();",
+							"",
+							"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function() {",
+							"pm.response.to.be.ok;",
+							"pm.response.to.be.withBody;",
+							"pm.response.to.be.json;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\":\"Новый тест\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/event/1/comments/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"event",
+						"1",
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение всех комментариев события (GET /event/1/comment)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function(){ pm.response.to.have.status(200); });",
+							"pm.test(\"Ответ c телом и JSON\", function(){",
+							"  pm.response.to.be.withBody;",
+							"  pm.response.to.be.json;",
+							"});",
+							"const responseData = pm.response.json();",
+							"pm.test(\"Ответ — массив\", function(){",
+							"  pm.expect(Array.isArray(responseData)).to.be.true;",
+							"});",
+							"pm.test(\"Элементы содержат ключевые поля\", function(){",
+							"  if (Array.isArray(responseData) && responseData.length){",
+							"    ['id','text','created','author','event'].forEach(k => pm.expect(responseData[0]).to.have.property(k));",
+							"  }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/event/1/comments",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"event",
+						"1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получение одного комментария (GET /event/1/comment/:commentId)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 200\", function(){ pm.response.to.have.status(200); });",
+							"pm.test(\"Ответ c телом и JSON\", function(){",
+							"  pm.response.to.be.withBody;",
+							"  pm.response.to.be.json;",
+							"});",
+							"const j = pm.response.json();",
+							"pm.test(\"Есть ключевые поля\", function(){",
+							"  ['id','text','created','author','event'].forEach(k => pm.expect(j).to.have.property(k));",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/event/1/comments/{{commentId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"event",
+						"1",
+						"comments",
+						"{{commentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Удаление комментария (DELETE /event/1/comment/:commentId)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 204 No Content\", function(){ pm.response.to.have.status(204); });",
+							"pm.test(\"Тело отсутствует\", function(){ pm.expect(pm.response.text()).to.be.oneOf(['', undefined]); });"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-User-Id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/event/1/comments/{{commentId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"event",
+						"1",
+						"comments",
+						"{{commentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Проверка после удаления (GET ожидаем 404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Статус 404 Not Found\", function(){ pm.response.to.have.status(404); });"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/event/1/comments/{{commentId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"event",
+						"1",
+						"comments",
+						"{{commentId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
